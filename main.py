@@ -8,7 +8,7 @@ api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 OWNER_ID = int(os.environ.get("OWNER_ID"))
-CHAT_ID = os.environ.get("CHAT_ID")
+CHAT_ID = int(os.environ.get("CHAT_ID"))
 TIME_GAP = int(os.environ.get("OWNER_ID")) # 30 minutes in seconds
 
 def get_random_meme():
