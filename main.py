@@ -21,8 +21,6 @@ chat_ids = [int(ch) if id_pattern.search(ch) else ch for ch in os.environ.get('C
 owner_id = int(os.environ.get("OWNER_ID"))
 time_gap = int(os.environ.get("TIME_GAP"))
 
-chat_ids = [int(chat_id) for chat_id in chat_ids]
-
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 with app:
