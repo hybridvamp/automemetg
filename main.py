@@ -2,6 +2,7 @@ import os
 import re
 import requests
 import time
+
 from pyrogram import Client
 
 id_pattern = re.compile(r'^.\d+$')
@@ -37,7 +38,7 @@ while True:
                 for chat_id in chat_ids:
                     sent_meme = app.send_photo(chat_id, photo=meme_url, caption=meme_title)
                     post_link = sent_meme.link
-                    app.send_message(owner_id, f'Meme sent to all chat IDs:\n<a href="{post_link}>POST LINK</a>', disable_web_page_preview=True, parse_mode='html')
+                    app.send_message(owner_id, f'Meme sent to all chat IDs:\n<a href="{post_link}">POST LINK</a>', disable_web_page_preview=True, parse_mode='html')
 
         except Exception as e:
             with app:
