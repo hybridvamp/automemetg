@@ -4,7 +4,7 @@ import requests
 import time
 import random
 
-from pyrogram import Client
+from pyrogram import Client, enums
 
 id_pattern = re.compile(r'^.\d+$')
 
@@ -33,7 +33,7 @@ def send_meme(chat_id, meme_url, meme_title):
     try:
         sent_meme = app.send_photo(chat_id, photo=meme_url, caption=meme_title)
         post_link = sent_meme.link
-        app.send_message(owner_id, f'Meme sent to chat ID {chat_id}:\n<a href="{post_link}">POST LINK</a>', disable_web_page_preview=True, parse_mode='html')
+        app.send_message(owner_id, f'Meme sent to chat ID {chat_id}:\n<a href="{post_link}">POST LINK</a>', disable_web_page_preview=True, parse_mode=enums.ParseMode.HTML)
     except Exception as e:
         app.send_message(owner_id, f"Error occurred while sending meme to chat ID {chat_id}: {str(e)}")
 
