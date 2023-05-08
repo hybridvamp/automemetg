@@ -3,10 +3,12 @@ import re
 import requests
 import time
 import random
+import logging
 
 from pyrogram import Client
 
 id_pattern = re.compile(r'^.\d+$')
+
 def is_enabled(value, default):
     if value.lower() in ["true", "yes", "1", "enable", "y"]:
         return True
@@ -23,6 +25,9 @@ chat_ids = [int(ch) if id_pattern.search(ch) else ch for ch in os.environ.get('C
 owner_id = int(os.environ.get("OWNER_ID"))
 time_gap = int(os.environ.get("TIME_GAP"))
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 with app:
@@ -32,17 +37,19 @@ while True:
     meme_api_link = random.choice(meme_api_links)
     try:
         response = requests.get(meme_api_link)
+        response.raise_for_status()
         meme_data = response.json()
         meme_title = meme_data["title"]
         meme_url = meme_data["url"]
+        logger.info(f"Selected meme API link: {meme_api_link}")
         with app:
             for chat_id in chat_ids:
                 sent_meme = app.send_photo(chat_id, photo=meme_url, caption=meme_title)
                 post_link = sent_meme.link
+                logger.info(f"Meme sent to chat ID {chat_id}")
                 app.send_message(owner_id, f'Meme sent to chat ID {chat_id}:\n<a href="{post_link}">POST LINK</a>', disable_web_page_preview=True, parse_mode='html')
-
+    except requests.exceptions.HTTPError as e:
+        logger.error(f"HTTP error occurred while getting meme from API {meme_api_link}: {e}")
     except Exception as e:
-        with app:
-            app.send_message(owner_id, f"Error occurred: {str(e)}")
-
+        logger.error(f"Error occurred while getting meme from API {meme_api_link} or sending meme: {e}")
     time.sleep(time_gap)
