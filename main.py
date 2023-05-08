@@ -7,12 +7,11 @@ api_id = os.environ.get("API_ID")
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
 meme_api_links = os.environ.get("MEME_API").split()
-chat_ids = os.environ.get("CHAT_IDS").split()
+chat_ids = os.environ.get("CHAT_ID").split()
 owner_id = int(os.environ.get("OWNER_ID"))
 time_gap = int(os.environ.get("TIME_GAP"))
 
 chat_ids = [int(chat_id) for chat_id in chat_ids]
-
 
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
