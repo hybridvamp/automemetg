@@ -20,7 +20,7 @@ api_id = os.environ.get("API_ID")
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
 meme_api_links = os.environ.get("MEME_API").split()
-chat_ids = [int(ch) if id_pattern.search(ch) else ch for ch in os.environ.get('CHAT_ID', '0').split()]
+chat_ids = os.environ.get('CHAT_ID', '0').split()
 owner_id = int(os.environ.get("OWNER_ID"))
 time_gap = int(os.environ.get("TIME_GAP"))
 
