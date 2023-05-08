@@ -2,6 +2,7 @@ import os
 import re
 import requests
 import time
+import random
 
 from pyrogram import Client
 
@@ -28,24 +29,20 @@ with app:
     app.send_message(owner_id, "Bot started!")
 
 while True:
-    for meme_api_link in meme_api_links:
-        try:
-            response = requests.get(meme_api_link)
-            meme_data = response.json()
-            if "title" in meme_data:
-                meme_title = meme_data["title"]
-            else:
-                meme_title = "Untitled Meme"
-            meme_url = meme_data["url"]
-            with app:
-                for chat_id in chat_ids:
-                    sent_meme = app.send_photo(chat_id, photo=meme_url, caption=meme_title)
-                    post_link = sent_meme.link
-                    app.send_message(owner_id, f'Meme sent to all chat IDs:\n<a href="{post_link}>POST LINK</a>', disable_web_page_preview=True, parse_mode='html')
+    meme_api_link = random.choice(meme_api_links)
+    try:
+        response = requests.get(meme_api_link)
+        meme_data = response.json()
+        meme_title = meme_data["title"]
+        meme_url = meme_data["url"]
+        with app:
+            for chat_id in chat_ids:
+                sent_meme = app.send_photo(chat_id, photo=meme_url, caption=meme_title)
+                post_link = sent_meme.link
+                app.send_message(owner_id, f'Meme sent to chat ID {chat_id}:\n<a href="{post_link}">POST LINK</a>', disable_web_page_preview=True, parse_mode='html')
 
-        except Exception as e:
-            with app:
-                app.send_message(owner_id, f"Error occurred: {str(e)}")
-
+    except Exception as e:
+        with app:
+            app.send_message(owner_id, f"Error occurred: {str(e)}")
 
     time.sleep(time_gap)
