@@ -20,7 +20,7 @@ def is_enabled(value, default):
 api_id = os.environ.get("API_ID")
 api_hash = os.environ.get("API_HASH")
 bot_token = os.environ.get("BOT_TOKEN")
-meme_api_links = os.environ.get("MEME_API").split()
+meme_api_link = os.environ.get("MEME_API")
 chat_ids = [int(ch.strip("'")) for ch in os.environ.get('CHAT_ID', '0').split()]
 owner_id = int(os.environ.get("OWNER_ID"))
 time_gap = int(os.environ.get("TIME_GAP"))
@@ -45,7 +45,7 @@ def send_meme(chat_id, meme_url, meme_title):
         app.send_message(owner_id, f"Error occurred while sending meme to chat ID {chat_id}: {str(e)}")
 
 while True:
-    meme_api_link = random.choice(meme_api_links)
+    meme_api_link
     retry_count = 0
     max_retry_count = 5
     while retry_count < max_retry_count:
