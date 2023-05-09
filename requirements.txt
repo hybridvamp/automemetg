@@ -1,4 +1,3 @@
 pyrogram
 requests
 TgCrypto
-mysql-connector-python
